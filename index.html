@@ -1,0 +1,1271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<title>Growth Audit — Lingopie</title>
+<link rel="icon" href="img/icon.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only dark;
+  /* ---- Lingopie, extracted from their live screens ---- */
+  --lp-bg:#191519; --lp-bg2:#1F1B21; --lp-card:#312C37; --lp-cell:#35303B; --lp-chip:#211D21; --lp-field:#2D2833;
+  --lp-orange:#FF6400; --lp-orange2:#FF7500; --lp-blue:#5996FB; --lp-purple:#8734C1; --lp-track:#2F2D33;
+  --lp-ink:#FFFFFF; --lp-txt:#D9D6DC; --lp-muted:#9A96A0; --lp-line:#2E2A31; --lp-fb:#344E8D;
+  --lp-plan:#212121; --lp-planline:#2E2E2E; --lp-dis:#A9B6C4;
+  --r-ctl:10px; --r-pill:28px; --r-media:14px;
+  /* ---- the report shell, in Lingopie's own palette (a dark app gets a dark shell) ---- */
+  --bg:#191519; --bg2:#211D21; --surf:#211D21;
+  --hair:rgba(255,255,255,.09); --hair2:rgba(255,255,255,.16);
+  --ink:#FFFFFF; --ink2:#C9C5CC; --ink3:#8D8892;
+  --accent:#FF6400; --accent-lift:#FF8243;
+  --panel:#FFFFFF; --panel-ink:#17141A; --panel-muted:#625D67; --panel-line:#ECEAEE;
+  --accent-ink:#C24A00;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);
+  font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+input{font:inherit}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+@media(max-width:700px){.wrap{padding:0 20px}}
+
+/* ============ top bar ============ */
+.nav{position:sticky;top:0;z-index:70;background:rgba(25,21,25,.86);backdrop-filter:blur(18px) saturate(160%);
+  border-bottom:1px solid var(--hair)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;gap:18px}
+@media(max-width:700px){.nav-in{padding:0 20px;gap:12px}}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.nav-brand .mk{width:26px;height:26px;flex:none;display:block;border-radius:7px}
+.nav-brand span{color:var(--ink2);font-weight:500}
+.nav-brand b{color:var(--ink);font-weight:700}
+.nav-links{margin-left:auto;display:flex;gap:2px;align-items:center}
+.nav-links button{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:700;color:var(--ink3);transition:.16s}
+.nav-links button:hover{color:var(--ink)}
+.nav-links button.on{color:var(--ink);background:#2D2833;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+@media(max-width:640px){.nav-brand span{display:none}}
+
+.view{display:none}
+.view.on{display:block}
+
+/* ============ hero ============ */
+.hero{padding:104px 0 0;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-340px;left:50%;transform:translateX(-50%);
+  width:1100px;height:640px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,100,0,.22),transparent 72%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(40% 50% at 8% 20%,rgba(135,52,193,.22),transparent 70%),
+   radial-gradient(38% 45% at 92% 18%,rgba(89,150,251,.14),transparent 70%)}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-lift);margin-bottom:26px}
+.hero h1{font-size:76px;line-height:.98;font-weight:800;letter-spacing:-.045em;margin:0 0 24px}
+@media(max-width:820px){.hero h1{font-size:50px}.hero{padding-top:70px}}
+.hero .lede{font-size:20px;line-height:1.5;font-weight:400;color:var(--ink2);max-width:600px;margin:0 auto;letter-spacing:-.012em}
+@media(max-width:820px){.hero .lede{font-size:17px}}
+.hero .meta{margin-top:30px;font-size:12.5px;color:var(--ink3);letter-spacing:.02em}
+.hero .meta b{color:var(--ink2);font-weight:700}
+
+.stats{display:flex;justify-content:center;gap:0;margin:70px auto 0;max-width:760px;
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 14px;text-align:center;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.stat span{display:block;font-size:11.5px;color:var(--ink3);margin-top:5px;line-height:1.35}
+@media(max-width:700px){.stat b{font-size:19px}.stat{padding:18px 8px}}
+
+.fb{max-width:760px;margin:0 auto;padding:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+@media(max-width:700px){.fb{grid-template-columns:1fr;gap:20px;padding-top:24px}}
+.fb-k{grid-column:1/-1;font-size:10.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);text-align:center;margin-bottom:-6px}
+.fb-i{display:flex;gap:12px;align-items:flex-start}
+.fb-i .tick{width:18px;height:18px;flex:none;margin-top:3px;border-radius:50%;background:rgba(255,100,0,.18);
+  display:grid;place-items:center}
+.fb-i .tick svg{width:10px;height:10px;stroke:var(--accent-lift);stroke-width:3;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.fb-i p{font-size:14px;line-height:1.55;color:var(--ink2);margin:0}
+.fb-i p b{color:var(--ink);font-weight:800}
+
+.sec{padding:96px 0}
+.sec-k{font-size:11.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:18px}
+.sec h2{font-size:38px;line-height:1.14;font-weight:800;letter-spacing:-.035em;margin:0 0 20px;max-width:680px}
+@media(max-width:820px){.sec h2{font-size:29px}.sec{padding:64px 0}}
+.sec p.body{font-size:17px;line-height:1.66;color:var(--ink2);max-width:640px;margin:0 0 18px;letter-spacing:-.008em}
+.sec p.body b{color:var(--ink);font-weight:700}
+.rule{height:1px;background:var(--hair);margin:0}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;max-width:820px}
+@media(max-width:760px){.notes{grid-template-columns:1fr}}
+.note{background:var(--surf);border:1px solid var(--hair);border-radius:16px;padding:24px 26px}
+.note h4{font-size:15px;font-weight:800;letter-spacing:-.015em;margin:0 0 8px}
+.note p{font-size:14px;line-height:1.6;color:var(--ink2);margin:0}
+
+.ideas{display:flex;flex-direction:column;gap:0;margin-top:14px;border-top:1px solid var(--hair)}
+.idea{display:grid;grid-template-columns:52px 1fr 180px;gap:26px;align-items:start;
+  padding:30px 4px;border-bottom:1px solid var(--hair);text-align:left;width:100%;transition:.18s}
+.idea:hover{background:rgba(255,255,255,.03)}
+@media(max-width:780px){.idea{grid-template-columns:38px 1fr;gap:16px}}
+.idea .no{font-size:13px;font-weight:800;color:var(--ink3);padding-top:4px;letter-spacing:.02em}
+.idea h3{font-size:21px;line-height:1.25;font-weight:800;letter-spacing:-.024em;margin:0 0 7px}
+@media(max-width:820px){.idea h3{font-size:18px}}
+.idea p{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0;max-width:540px}
+.idea .out{text-align:right;padding-top:3px}
+@media(max-width:780px){.idea .out{grid-column:2;text-align:left;padding-top:12px}}
+.idea .out b{display:block;font-size:19px;font-weight:800;letter-spacing:-.025em;color:var(--accent-lift);white-space:nowrap}
+.idea .out span{display:block;font-size:10.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-weight:700}
+.idea .seeit{display:inline-flex;align-items:center;gap:5px;margin-top:11px;font-size:12.5px;
+  font-weight:700;color:var(--accent-lift)}
+.idea .seeit svg{width:12px;height:12px}
+
+.band{background:var(--surf);border:1px solid var(--hair);border-radius:28px;padding:40px 44px;margin-top:44px;
+  display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+@media(max-width:700px){.band{padding:28px 24px;gap:22px}}
+.band .lab{font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.band .txt{flex:1;min-width:240px}
+.band .txt p{font-size:15.5px;line-height:1.6;color:var(--ink2);margin:0}
+.band .nums{display:flex;gap:34px}
+.band .nums div b{display:block;font-size:30px;font-weight:800;letter-spacing:-.035em;color:var(--accent-lift)}
+.band .nums div span{display:block;font-size:11px;color:var(--ink3);margin-top:2px;letter-spacing:.04em;
+  text-transform:uppercase;font-weight:700}
+
+.cta-row{display:flex;justify-content:center;margin-top:52px;align-items:center;gap:22px;flex-wrap:wrap}
+.bigbtn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;
+  font-size:15px;font-weight:800;letter-spacing:-.01em;padding:15px 26px;border-radius:30px;transition:.16s}
+.bigbtn:hover{filter:brightness(1.1)}
+.bigbtn svg{width:15px;height:15px}
+
+.foot{border-top:1px solid var(--hair);padding:36px 0 70px;font-size:12.5px;line-height:1.6;color:var(--ink3)}
+
+/* ============ prototype stage ============ */
+.stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,470px);gap:0;
+  align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.stage{grid-template-columns:1fr}}
+.phonecol{padding:34px 24px 46px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.panelcol{border-left:1px solid var(--hair);background:var(--panel);color:var(--panel-ink);
+  min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.panelcol{position:static;max-height:none;border-left:none;border-top:1px solid var(--hair)}}
+
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;
+  border-radius:46px;box-shadow:0 0 0 1.5px #3A353E,0 34px 70px -22px rgba(0,0,0,.7)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--lp-bg);color-scheme:only dark}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;background:#000;
+  border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;display:flex;
+  align-items:center;justify-content:space-between;padding:14px 28px 0 34px;font:700 15px/1 'Manrope',sans-serif;color:#111;transition:color .3s}
+.sbar.light{color:#fff}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;
+  border-radius:3px;background:#111;z-index:56;pointer-events:none;transition:background .3s}
+.homebar.light{background:rgba(255,255,255,.9)}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--lp-bg)}
+
+/* ============ phone screens — Lingopie's system, all prefixed scr-/lp- ============ */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--lp-bg);color:var(--lp-ink);
+  font-family:'Manrope',-apple-system,sans-serif;
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:56px 16px 0;position:relative;z-index:2}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 16px;scrollbar-width:none;position:relative;z-index:2}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-body.dock{display:flex;flex-direction:column}
+.scr-foot{flex:none;padding:12px 16px 30px;position:relative;z-index:2}
+
+.lp-nav{display:flex;align-items:center;gap:10px;height:44px}
+.lp-back{width:44px;height:44px;flex:none;border-radius:50%;background:#1A181C;border:1px solid #2C2930;display:grid;place-items:center;color:#fff}
+.lp-back.lt{background:#D1CFD2;border-color:#D1CFD2;color:#222}
+.lp-back svg{width:18px;height:18px}
+.lp-prog{flex:1;height:6px;border-radius:3px;background:var(--lp-track);overflow:hidden}
+.lp-prog i{display:block;height:100%;background:var(--lp-purple);border-radius:3px;transition:width .4s cubic-bezier(.32,.72,0,1)}
+.lp-skip{position:absolute;right:12px;top:52px;height:44px;padding:0 10px;border-radius:22px;background:#1A161A;border:1px solid #2A262C;
+  font:600 15px/1 'Manrope',sans-serif;color:#E9E6EB}
+.lp-q{font-size:18px;line-height:1.3;font-weight:600;letter-spacing:-.01em;margin:30px 0 0;color:var(--lp-ink)}
+.lp-h{font-size:25px;line-height:1.2;font-weight:800;letter-spacing:-.01em;margin:22px 0 0;color:var(--lp-ink)}
+.lp-sub{font-size:15.5px;line-height:1.45;color:var(--lp-muted);margin:10px 0 0;font-weight:500}
+
+.lp-btn{display:block;width:100%;height:50px;border-radius:25px;background:var(--lp-orange);color:#fff;
+  font:700 16px/1 'Manrope',sans-serif;transition:filter .15s,opacity .15s}
+.lp-btn:hover{filter:brightness(1.06)}
+.lp-btn.blue{background:var(--lp-blue)}
+.lp-btn.caps{text-transform:uppercase;font-weight:600;letter-spacing:.01em}
+.lp-btn[disabled]{background:#8A3A0C;color:rgba(255,255,255,.45);cursor:default;filter:none}
+.lp-btn.gr[disabled]{background:var(--lp-dis);color:rgba(255,255,255,.6)}
+.lp-link{display:block;width:100%;margin-top:14px;text-align:center;font:600 15px/1.3 'Manrope',sans-serif;color:var(--lp-orange)}
+.lp-small{font-size:13px;line-height:1.45;color:var(--lp-muted);text-align:center;font-weight:500}
+.lp-small b{color:var(--lp-orange);font-weight:600}
+
+/* welcome carousel */
+.scr--welcome{background:var(--lp-bg)}
+.lp-slides{position:absolute;inset:0;display:flex;transition:transform .45s cubic-bezier(.32,.72,0,1)}
+.lp-slide{flex:none;width:100%;height:100%;position:relative;overflow:hidden}
+.lp-wall{position:absolute;left:0;right:0;top:56px;height:430px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.lp-row{display:flex;gap:12px;width:max-content;animation:wall 26s linear infinite}
+.lp-row.r2{animation-duration:20s;animation-direction:reverse}
+.lp-row.r3{animation-duration:30s}
+@keyframes wall{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.lp-row span{display:block;border-radius:12px;overflow:hidden;background:#2A252B;flex:none}
+.lp-row img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 12%;filter:brightness(1.45) saturate(1.1)}
+.lp-row.r1 span{width:280px;height:205px}
+/* genre art has its label baked into the lower third: show only the top 62% */
+.lp-row.r2 span,.lp-row.r3 span{width:250px;height:81px}
+.lp-row.r2 img,.lp-row.r3 img{height:auto}
+.lp-photo{position:absolute;left:0;right:0;top:0;height:560px}
+.lp-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 0;display:block}
+.lp-shade{position:absolute;left:0;right:0;top:380px;height:200px;background:linear-gradient(180deg,rgba(25,21,25,0),var(--lp-bg) 85%)}
+.lp-wtxt{position:absolute;left:18px;right:18px;top:552px;text-align:center}
+.lp-wtxt h2{font:400 40px/1 'Bebas Neue',sans-serif;letter-spacing:.01em;color:#fff}
+.lp-wtxt p{font-size:16.5px;line-height:1.42;color:#fff;margin-top:10px;font-weight:500}
+.lp-dots{display:flex;gap:9px;justify-content:center;margin:0 0 18px}
+.lp-dots i{width:7px;height:7px;border-radius:50%;background:#D6D2D1;transition:.25s}
+.lp-dots i.on{background:var(--lp-orange)}
+.scr--welcome .scr-foot{margin-top:auto}
+
+/* name */
+.lp-field{position:relative;margin-top:22px;background:var(--lp-chip);border-radius:6px;height:54px}
+.lp-field label{position:absolute;left:12px;top:8px;font-size:10.5px;color:var(--lp-muted);font-weight:500}
+.lp-field input{position:absolute;inset:0;padding:20px 12px 0;background:none;border:none;outline:none;color:var(--lp-ink);font-size:16px;font-weight:500;caret-color:var(--lp-blue)}
+
+/* language grid */
+.lp-speak{display:flex;align-items:center;gap:6px;margin-top:44px;font-size:16px;color:var(--lp-ink);font-weight:500}
+.lp-speak span{color:var(--lp-muted)}
+.lp-speak svg{width:16px;height:16px}
+.lp-want{font-size:15.5px;color:var(--lp-muted);margin:40px 0 14px;font-weight:500}
+.lp-langs{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.lp-lang{display:flex;align-items:center;gap:10px;height:37px;padding:0 10px;border-radius:4px;background:var(--lp-chip);border:1.5px solid transparent;
+  font:700 15px/1 'Manrope',sans-serif;color:var(--lp-ink);text-align:left;transition:.14s}
+.lp-lang img{width:24px;height:24px;border-radius:50%;flex:none;display:block}
+.lp-lang.on{border-color:var(--lp-orange)}
+
+/* fluency */
+.lp-levels{display:flex;flex-direction:column;gap:12px;margin-top:28px}
+.lp-level{display:flex;align-items:stretch;width:100%;text-align:left;background:var(--lp-card);border-radius:var(--r-ctl);overflow:hidden;border:1.5px solid transparent;transition:.14s;min-height:75px}
+.lp-level .ic{width:75px;flex:none;background:var(--lp-cell);display:grid;place-items:center}
+.lp-level .ic img{width:58px;height:58px;display:block;border-radius:50%}
+.lp-level .tx{padding:11px 12px;display:flex;flex-direction:column;justify-content:center}
+.lp-level b{font-size:15.5px;font-weight:700;color:var(--lp-ink)}
+.lp-level span{font-size:13.5px;line-height:1.35;color:var(--lp-muted);margin-top:3px;font-weight:500}
+.lp-level.on{border-color:var(--lp-orange)}
+
+/* hear */
+.lp-hear{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:22px}
+.lp-hc{height:52px;border-radius:4px;background:var(--lp-chip);border:1.5px solid transparent;font:500 14px/1.2 'Manrope',sans-serif;color:var(--lp-ink);padding:0 8px;transition:.14s}
+.lp-hc.on{border-color:var(--lp-orange)}
+
+/* binge grid */
+.lp-genres{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.lp-g{position:relative;height:89px;border-radius:var(--r-media);overflow:hidden;background:#2A252B;display:block;width:100%}
+.lp-g img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0;display:block}
+.lp-g::after{content:'';position:absolute;inset:0;background:rgba(255,110,0,0);transition:background .18s}
+.lp-g.on::after{background:rgba(255,112,0,.62)}
+
+/* pick a show */
+.lp-shows{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.lp-show{position:relative;display:block;width:100%;border-radius:18px;overflow:hidden;border:2.5px solid transparent;transition:.16s;background:#222}
+.lp-show img{display:block;width:100%;height:auto}
+.lp-show.on{border-color:var(--lp-orange)}
+.lp-show .rd{position:absolute;right:20px;bottom:18px;width:24px;height:24px;border-radius:50%;opacity:0;background:var(--lp-orange);
+  border:2px solid #fff;display:grid;place-items:center;transition:.16s}
+.lp-show .rd svg{width:12px;height:12px;stroke:#fff;stroke-width:3.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.lp-show.on .rd{opacity:1}
+.lp-show.ns{height:200px}
+.lp-show.ns img{height:100%;object-fit:cover;object-position:0 0}
+
+/* paywall */
+.scr--pay{background:#000}
+.lp-payimg{position:absolute;left:0;right:0;top:0;height:330px;z-index:0;pointer-events:none}
+.lp-payimg img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.62)}
+.lp-payimg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,.15) 40%,#000 100%)}
+.scr--pay .scr-top{padding:112px 18px 0}
+.lp-x{position:absolute;right:14px;top:52px;width:40px;height:40px;display:grid;place-items:center;color:#fff;z-index:5}
+.lp-x svg{width:20px;height:20px}
+.lp-payh{font-size:25px;line-height:1.2;font-weight:500;letter-spacing:-.012em;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+.lp-picks{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.lp-pk{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px 0 6px;border-radius:13px;background:rgba(255,255,255,.14);
+  font:600 12px/1 'Manrope',sans-serif;color:#fff;backdrop-filter:blur(6px)}
+.lp-pk img{width:17px;height:17px;border-radius:50%;display:block}
+.lp-pk.nb{padding-left:10px}
+.scr--pay .scr-body{padding:0 18px}
+.lp-proof{display:flex;align-items:stretch;margin-top:14px;border:1px solid #2B2B2B;border-radius:12px;background:rgba(255,255,255,.04)}
+.lp-proof div{flex:1;padding:8px 4px;text-align:center;border-left:1px solid #2B2B2B}
+.lp-proof div:first-child{border-left:none}
+.lp-proof b{display:block;font-size:15px;font-weight:800;color:#fff;line-height:1.1;white-space:nowrap}
+.lp-proof b em{font-style:normal;color:var(--lp-orange)}
+.lp-proof span{display:block;font-size:10.5px;color:#A29EA6;margin-top:3px;font-weight:600;white-space:nowrap}
+.lp-feat{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.lp-f{display:flex;gap:10px;align-items:flex-start;font-size:13.8px;line-height:1.32;color:#F0EEF1;font-weight:500}
+.lp-f svg{width:15px;height:15px;flex:none;stroke:#fff;stroke-width:2.4;fill:none;margin-top:1px;stroke-linecap:round;stroke-linejoin:round}
+.lp-choose{font-size:14.5px;font-weight:700;color:#fff;margin:16px 0 0}
+.lp-plans{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.lp-plan{position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;
+  background:var(--lp-plan);border:1.5px solid var(--lp-planline);border-radius:12px;padding:0 16px;height:70px;transition:.16s;color:#fff}
+.lp-plan.on{border-color:#C9692C;background:linear-gradient(180deg,rgba(120,85,60,.42),rgba(60,45,35,.42))}
+.lp-plan .t{display:block;font-size:16px;font-weight:600}
+.lp-plan .s{display:block;font-size:13.5px;font-weight:600;color:#E9E6EB;margin-top:3px}
+.lp-plan .p{font-size:14px;font-weight:600;white-space:nowrap}
+.lp-save{position:absolute;top:-12px;right:22px;background:var(--lp-orange);color:#fff;border-radius:7px;padding:4px 9px;font:700 13px/1.1 'Manrope',sans-serif}
+.scr--pay .scr-foot{padding:10px 18px 24px;background:#000}
+.lp-already{font-size:14.5px;font-weight:700;color:#fff;text-align:center;margin-top:16px}
+.lp-already b{color:var(--lp-orange);font-weight:700;margin-left:4px}
+.lp-legal{font-size:12px;text-align:center;margin-top:12px;color:#C9C5CC;font-weight:500}
+.lp-legal b{color:var(--lp-orange);font-weight:600}
+
+/* offer — trial timeline */
+.scr--offer{background:var(--lp-bg)}
+.scr--offer .lp-x{top:52px}
+.lp-oart{display:block;width:96px;height:96px;margin:84px auto 0;border-radius:50%}
+.lp-oh{font-size:25px;line-height:1.2;font-weight:800;letter-spacing:-.01em;text-align:center;color:#fff;margin:18px 6px 0}
+.lp-os{font-size:15px;line-height:1.45;color:var(--lp-muted);text-align:center;margin:10px 4px 0;font-weight:500}
+.lp-os b{color:#fff;font-weight:700}
+.lp-tl{margin-top:26px;background:var(--lp-card);border-radius:14px;padding:18px 16px 4px}
+.lp-ti{display:flex;gap:14px;position:relative;padding-bottom:18px}
+.lp-ti .dot{width:30px;height:30px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--lp-orange);position:relative;z-index:1}
+.lp-ti .dot svg{width:15px;height:15px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.lp-ti.b .dot{background:var(--lp-purple)}
+.lp-ti:not(:last-child)::before{content:'';position:absolute;left:14px;top:30px;bottom:0;width:2px;background:linear-gradient(var(--lp-orange),var(--lp-purple))}
+.lp-ti b{display:block;font-size:15px;font-weight:700;color:#fff}
+.lp-ti span{display:block;font-size:13.5px;line-height:1.4;color:var(--lp-muted);margin-top:2px;font-weight:500}
+.lp-oplan{margin-top:14px;display:flex;align-items:center;justify-content:space-between;border:1.5px solid #C9692C;border-radius:12px;padding:12px 16px;
+  background:linear-gradient(180deg,rgba(120,85,60,.42),rgba(60,45,35,.42))}
+.lp-oplan b{font-size:15.5px;font-weight:700;color:#fff}
+.lp-oplan span{font-size:13.5px;font-weight:600;color:#E9E6EB}
+.lp-oplan em{font-style:normal;background:var(--lp-orange);color:#fff;border-radius:7px;padding:4px 8px;font-size:12.5px;font-weight:700}
+
+/* account (their sign-up, moved) */
+.scr--acct{background:var(--lp-bg2);overflow:hidden}
+.lp-deco{position:absolute;border-radius:50%;background:#26212A;z-index:0;pointer-events:none}
+.lp-ok{display:flex;align-items:center;gap:8px;margin:2px auto 0;width:max-content;max-width:100%;height:32px;padding:0 13px 0 7px;border-radius:16px;background:rgba(255,100,0,.15);
+  font:700 13px/1 'Manrope',sans-serif;color:#FFB07A}
+.lp-ok i{width:20px;height:20px;border-radius:50%;background:var(--lp-orange);display:grid;place-items:center}
+.lp-ok svg{width:11px;height:11px;stroke:#fff;stroke-width:3.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.lp-gs{font-size:25px;font-weight:600;text-align:center;color:#fff;margin-top:22px;letter-spacing:-.01em}
+.lp-have{font-size:14.5px;text-align:center;color:#fff;margin-top:14px;font-weight:500}
+.lp-have b{color:var(--lp-orange);font-weight:600;margin-left:3px}
+.lp-in{height:46px;border-radius:8px;background:var(--lp-field);margin-top:14px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:15px;color:#77727C;font-weight:500}
+.lp-in svg{width:20px;height:20px;fill:#8B8690}
+.lp-or{text-align:center;font-size:16px;color:#fff;margin:34px 0 30px;font-weight:500}
+.lp-soc{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:46px;border-radius:23px;margin-top:11px;font:700 15px/1 'Manrope',sans-serif;position:relative}
+.lp-soc svg{position:absolute;left:16px;width:21px;height:21px}
+.lp-soc.g{background:#fff;color:#111}.lp-soc.f{background:var(--lp-fb);color:#fff}.lp-soc.a{background:#000;color:#fff}
+.lp-terms{font-size:11.5px;line-height:1.5;text-align:center;color:#8F8A94;margin-top:18px;font-weight:500}
+.lp-terms b{color:var(--lp-orange);font-weight:700}
+
+/* notify — their white screen */
+.scr--notify{background:#fff;color:#2B2730}
+.lp-bell{display:block;width:40px;height:43px;margin:4px auto 0}
+.lp-nh{font-size:24px;font-weight:700;text-align:center;color:#3A3640;margin-top:12px}
+.lp-np{font-size:15.5px;line-height:1.45;text-align:center;color:#3A3640;margin:14px 10px 0;font-weight:500}
+.lp-nart{display:block;width:240px;height:240px;margin:22px auto 0}
+.scr--notify .lp-link{color:#FF6400}
+
+/* light mode — an approximation: Lingopie ships dark, no light frames exist except the notification screen */
+.phone-in.light{--lp-bg:#F5F3F6;--lp-bg2:#F5F3F6;--lp-card:#FFFFFF;--lp-cell:#F1ECF3;--lp-chip:#FFFFFF;--lp-field:#FFFFFF;
+  --lp-ink:#1F1B21;--lp-txt:#3A3640;--lp-muted:#6E6873;--lp-track:#E3DFE6;--lp-plan:#FFFFFF;--lp-planline:#E2DEE5;background:var(--lp-bg)}
+.phone-in.light .screenwrap{background:var(--lp-bg)}
+.phone-in.light .lp-back{background:#fff;border-color:#E2DEE5;color:#1F1B21}
+.phone-in.light .lp-skip{background:#fff;border-color:#E2DEE5;color:#1F1B21}
+.phone-in.light .lp-lang,.phone-in.light .lp-hc,.phone-in.light .lp-level,.phone-in.light .lp-in{box-shadow:0 1px 6px rgba(31,27,33,.06)}
+.phone-in.light .lp-wtxt h2,.phone-in.light .lp-wtxt p,.phone-in.light .lp-gs,.phone-in.light .lp-have,.phone-in.light .lp-or,.phone-in.light .lp-oh,
+.phone-in.light .lp-ti b,.phone-in.light .lp-tl,.phone-in.light .lp-os b{color:#1F1B21}
+.phone-in.light .lp-shade{background:linear-gradient(180deg,rgba(245,243,246,0),var(--lp-bg) 85%)}
+.phone-in.light .lp-deco{background:#ECE8EF}
+.phone-in.light .lp-ok{color:#B64700}
+.phone-in.light .lp-soc.g{border:1px solid #E2DEE5}
+.phone-in.light .lp-btn[disabled]{background:#F7C7A6;color:rgba(255,255,255,.9)}
+.phone-in.light .lp-oplan,.phone-in.light .lp-plan.on{background:#FFF1E8}
+.phone-in.light .lp-oplan b,.phone-in.light .lp-oplan span{color:#1F1B21}
+.phone-in.light .scr--pay{background:#F5F3F6}
+.phone-in.light .lp-payimg::after{background:linear-gradient(180deg,rgba(0,0,0,.2) 0%,rgba(0,0,0,.1) 40%,rgba(245,243,246,.4) 72%,#F5F3F6 100%)}
+.phone-in.light .scr--pay .scr-foot{background:#F5F3F6}
+.phone-in.light .lp-proof{background:#fff;border-color:#E2DEE5}.phone-in.light .lp-proof div{border-color:#E2DEE5}
+.phone-in.light .lp-proof b,.phone-in.light .lp-f,.phone-in.light .lp-choose,.phone-in.light .lp-plan,.phone-in.light .lp-already{color:#1F1B21}
+.phone-in.light .lp-plan .s{color:#4A4550}
+.phone-in.light .lp-f svg{stroke:#1F1B21}
+.phone-in.light .lp-legal{color:#4A4550}
+.phone-in.light .lp-proof span{color:#6E6873}
+
+/* prototype toolbar, walkthrough, QR */
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
+.seg{display:inline-flex;align-items:center;background:#fff;border:1px solid #E1E4E6;border-radius:20px;padding:3px;gap:2px}
+.seg button{padding:6px 11px;border-radius:16px;font:700 12px/1 'Manrope',sans-serif;color:#4A4550;transition:.14s}
+.seg button.on{background:#191519;color:#fff}
+.demo-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:20px;background:var(--accent);color:#fff;
+  font:800 12px/1 'Manrope',sans-serif}
+.demo-cap{width:390px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--hair);border-radius:16px;padding:14px 14px 12px;
+  display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.demo-cap .bar{position:absolute;left:0;top:0;right:0;height:3px;background:#EEF0F1}
+.demo-cap .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.demo-cap p{flex:1;font-size:13.5px;line-height:1.45;color:#17141A;margin:0;font-weight:600}
+.demo-cap button{font:800 12px/1 'Manrope',sans-serif;color:#4A4550;padding:7px 10px;border-radius:12px;border:1px solid #E1E4E6;flex:none}
+.finger{position:absolute;z-index:90;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.28);
+  border:2px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.35);pointer-events:none;opacity:0;left:50%;top:60%;
+  transition:left .32s cubic-bezier(.4,0,.2,1),top .32s cubic-bezier(.4,0,.2,1),opacity .2s,transform .15s}
+.finger.show{opacity:1}
+.finger.press{transform:scale(.78);background:rgba(255,255,255,.45)}
+.qr{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:10px 16px 10px 10px;text-align:left}
+.qr img{width:123px;height:123px;display:block;image-rendering:pixelated;border-radius:6px}
+.qr span{font-size:12.5px;line-height:1.45;color:#4A4550}
+.qr b{display:block;color:#17141A;font-size:13.5px}
+@media(max-width:1080px){.qr{display:none}}
+
+#view-proto .tools{order:0} #view-proto .demo-cap{order:1} #view-proto .phone{order:2} #view-proto .chips{order:3}
+#view-proto .chiphint{order:4} #view-proto .qr{order:5}
+.cta-row .qr{order:2}
+/* on a phone: the prototype is the screen */
+@media(max-width:500px){
+  #view-proto .phonecol{padding:0 0 28px;gap:14px}
+  #view-proto .phone{width:100vw;height:calc(100svh - 58px);min-height:640px;border:0;border-radius:0;box-shadow:none;order:1}
+  #view-proto .phone-in{border-radius:0}
+  #view-proto .island,#view-proto .sbar,#view-proto .homebar{display:none}
+  #view-proto .scr-top{padding-top:16px}
+  #view-proto .scr-foot{padding-bottom:18px}
+  #view-proto .scr--pay .scr-top{padding-top:76px}
+  #view-proto .lp-payimg{height:290px}
+  #view-proto .lp-x,#view-proto .lp-skip{top:12px}
+  #view-proto .lp-wall{top:14px}
+  #view-proto .lp-wtxt{top:auto;bottom:118px}
+  #view-proto .lp-oart{margin-top:46px}
+  #view-proto .tools{order:3;padding:0 12px}
+  #view-proto .demo-cap{position:fixed;left:12px;right:12px;bottom:12px;width:auto;max-width:none;z-index:95}
+  #view-proto .chips{order:4;padding:0 12px}
+  #view-proto .chiphint{order:5}
+}
+
+.herobtns{display:flex;justify-content:center;margin-top:30px}
+.ghostbtn{display:inline-flex;align-items:center;gap:10px;background:var(--surf);border:1px solid var(--hair2);color:var(--ink);font-size:14px;
+  font-weight:800;padding:9px 20px 9px 9px;border-radius:30px;transition:.16s}
+.ghostbtn:hover{background:#2D2833}
+.ghostbtn .pl{width:30px;height:30px;border-radius:50%;background:var(--accent);display:grid;place-items:center}
+.ghostbtn .pl svg{width:12px;height:12px;fill:#fff;margin-left:2px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:470px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #3A353E;background:var(--surf);
+  font:700 12px/1 'Manrope',sans-serif;color:var(--ink2);transition:.14s}
+.chip:hover{color:var(--ink);border-color:#5A5460}
+.chip.offer{border-style:dashed;border-color:var(--accent);color:var(--accent-lift)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff;border-style:solid}
+.chiphint{text-align:center;font-size:11px;color:var(--ink3);margin:0;max-width:430px}
+
+/* ============ the short panel ============ */
+.pn{padding:30px 30px 60px}
+.pn-n{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.pn-n.ctx{color:var(--panel-muted)}
+.pn-t{font-size:23px;line-height:1.18;font-weight:800;letter-spacing:-.028em;margin:8px 0 0;color:var(--panel-ink)}
+.pn-hyp{font-size:15px;line-height:1.62;color:#2E2A33;margin:16px 0 0}
+.pn-hyp b{font-weight:800;color:var(--panel-ink)}
+.pn-out{margin-top:22px;border-top:1px solid var(--panel-line);padding-top:18px}
+.pn-out .lab{font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-out .v{font-size:31px;font-weight:800;letter-spacing:-.035em;color:var(--accent-ink);margin-top:7px;line-height:1}
+.pn-kept{margin-top:22px;font-size:12.5px;line-height:1.55;color:var(--panel-muted)}
+.pn-kept b{color:#2E2A33;font-weight:800}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);
+  padding-top:14px;margin-top:26px}
+.pn-sep{height:1px;background:var(--panel-line);margin:26px 0}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-in">
+    <div class="nav-brand">
+      <img class="mk" src="img/icon.jpg" alt="Lingopie">
+      <b>Growth Audit</b><span>· Lingopie</span>
+    </div>
+    <div class="nav-links">
+      <button class="on" data-view="over">Overview</button>
+      <button data-view="proto">Prototype</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= OVERVIEW ======================= -->
+<div class="view on" id="view-over">
+
+<div class="hero">
+  <div class="wrap">
+    <!-- month + year = the day you build --><div class="eyebrow">Growth Audit · November 2026</div>
+    <h1>Lingopie</h1>
+    <p class="lede">Five ideas to unlock more revenue from the traffic you already have.</p>
+    <div class="meta">Prepared by <b>Adapty</b> · based on your live iOS flow and your App Store listing</div>
+    <div class="herobtns"><button class="ghostbtn" data-demo><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg></span>Watch the 30-second walkthrough</button></div>
+    <div class="stats">
+      <div class="stat"><b>30,000+</b><span>apps run subscriptions<br>on Adapty</span></div>
+      <div class="stat"><b>5</b><span>ideas, each rebuilt<br>as a working screen</span></div>
+      <div class="stat"><b>0</b><span>design changes<br>to your art direction</span></div>
+    </div>
+
+    <div class="fb">
+      <div class="fb-k">Built in Adapty Flow Builder</div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Millions of dollars</b> in subscription revenue pass through Flow Builder every month.</p>
+      </div>
+      <div class="fb-i">
+        <span class="tick"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <p><b>Nearly 500 apps</b> actively build their paywalls and onboarding in it — plenty of them past $100K MRR.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">What this is</div>
+    <h2>We opened Lingopie the way a new user does, then rebuilt the parts we think are leaving money on the table.</h2>
+    <p class="body">Adapty powers subscriptions for <b>30,000+ apps</b>, so we get to see what actually moves conversion and ARPU across the market rather than inside one app. We pointed that at Lingopie: installed it, went through every screen up to the first episode, read your App Store listing and your pricing page, and looked for gaps between what you already have and what you currently show people.</p>
+    <p class="body">What follows is five ideas — not fifteen. Each one is a hypothesis you can A/B test, and each one is built into a clickable prototype so you can see it rather than imagine it. <b>The prototype uses your design, not ours.</b></p>
+
+    <div class="notes">
+      <div class="note">
+        <h4>We did not redesign your app</h4>
+        <p>Every screen in the prototype is yours — your orange buttons, the purple progress bar, the flag chips, the pie levels, the genre tiles, the show cards and your paywall. Only the order changed, plus a few things you already own but do not show at the right moment.</p>
+      </div>
+      <div class="note">
+        <h4>You may have tested some of this</h4>
+        <p>We are working from the outside, so we cannot see your experiment history. If one of these is something you have already run, tell us — we will go deeper on the rest rather than repeat it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<div class="sec">
+  <div class="wrap">
+    <div class="sec-k">The five ideas</div>
+    <h2>Ranked by what we would test first.</h2>
+    <p class="body">Each one links straight to the screen in the prototype.</p>
+
+    <div class="ideas">
+      <button class="idea" data-jump="binge">
+        <span class="no">01</span>
+        <span>
+          <h3>Ask what they binge before the price</h3>
+          <p>Today “What do you binge?” and “Pick one you’d actually watch” come after the paywall. So the paywall says “Let your TV teach you a new language” to everyone, when it could say “Let The Night Shift teach you Spanish” to the person who just picked it.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +15–20%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="offer">
+        <span class="no">02</span>
+        <span>
+          <h3>Offer the free week when they close</h3>
+          <p>Close the paywall today and you go straight into the app on 8 free minutes a week. Your own pricing page offers every plan free for 7 days, but the app’s paywall never mentions it. That week is the right second chance.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>ARPU +10–15%</b><span>second chance</span></span>
+      </button>
+
+      <button class="idea" data-jump="account">
+        <span class="no">03</span>
+        <span>
+          <h3>Ask for the account after they pay</h3>
+          <p>Step 7 is “Get Started with Lingopie” — email and password, or Google, Facebook or Apple — right before the price. After a purchase the same screen has a reason to exist: save what they just bought.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +8%</b><span>ARPU +17%</span></span>
+      </button>
+
+      <button class="idea" data-jump="paywall">
+        <span class="no">04</span>
+        <span>
+          <h3>Put your 2M learners on the paywall</h3>
+          <p>Your homepage says 2M+ learners and 4.8 on Trustpilot, and the App Store shows 4.4 from 2.2K ratings. None of it appears anywhere in the flow, including the screen where people decide to pay 99,99 €.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+
+      <button class="idea" data-jump="notify">
+        <span class="no">05</span>
+        <span>
+          <h3>Ask for notifications after the paywall</h3>
+          <p>“Get Notified!” is step 6, so the system dialog lands two screens before the price, at the moment you want attention on the plans. Keep the screen and the illustration — just ask once they are in.</p>
+          <span class="seeit">See the screen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+        <span class="out"><b>CR +10–15%</b><span>to purchase</span></span>
+      </button>
+    </div>
+
+    <div class="band">
+      <div class="txt">
+        <div class="lab">Potential outcome</div>
+        <p>Run together, these five move the same funnel at three points — what comes before the price, what the paywall says, and what happens when someone says no.</p>
+      </div>
+      <div class="nums">
+        <div><b>+25%</b><span>CR to purchase</span></div>
+        <div><b>+30%</b><span>ARPU</span></div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <div class="qr"><img src="img/qr.svg" alt="QR code for the prototype"><span><b>Or open it on your phone</b>Scan to try the flow in your hand.</span></div>
+      <button class="bigbtn" data-view="proto">Open the prototype
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div class="wrap">
+    Impact ranges are Adapty's expected effect from teardowns and A/B tests across subscription apps — not measured lift for Lingopie. Every price, rating, quote and feature line here and in the prototype comes from Lingopie's own App Store listing, website, pricing page and in-app screens.
+  </div>
+</div>
+</div><!-- /view-over -->
+
+<!-- ======================= PROTOTYPE ======================= -->
+<div class="view" id="view-proto">
+<div class="stage">
+  <div class="phonecol">
+    <div class="tools" id="tools">
+      <div class="seg" id="segLang"><button data-lang="en" class="on">EN</button><button data-lang="es">ES</button><button data-lang="de">DE</button></div>
+      <div class="seg" id="segTheme"><button data-theme="light">Light</button><button data-theme="dark" class="on">Dark</button></div>
+      <button class="demo-btn" id="demoBtn"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>30-sec walkthrough</button>
+    </div>
+    <div class="phone">
+      <div class="phone-in" id="phoneIn">
+        <div class="island"></div>
+        <div class="sbar light" id="sbar">
+          <span>10:21</span>
+          <span class="glyphs">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="homebar light" id="homebar"></div>
+        <div class="finger" id="finger"></div>
+        <div class="screenwrap">
+
+<!-- WELCOME (their two-slide carousel) -->
+<section class="scr scr--welcome" data-id="welcome" data-photo="1">
+  <div class="lp-slides" id="slides">
+    <div class="lp-slide">
+      <div class="lp-wall" aria-hidden="true">
+        <div class="lp-row r1"><span><img src="img/show-clouds.jpg" alt=""></span><span><img src="img/pw-face.jpg" alt="" style="object-position:50% 45%"></span><span><img src="img/show-nightshift.jpg" alt=""></span><span><img src="img/show-clouds.jpg" alt=""></span><span><img src="img/pw-face.jpg" alt="" style="object-position:50% 45%"></span><span><img src="img/show-nightshift.jpg" alt=""></span></div>
+        <div class="lp-row r2"><span><img src="img/g-cartoon.jpg" alt=""></span><span><img src="img/g-comedy.jpg" alt=""></span><span><img src="img/g-romantic.jpg" alt=""></span><span><img src="img/g-cartoon.jpg" alt=""></span><span><img src="img/g-comedy.jpg" alt=""></span><span><img src="img/g-romantic.jpg" alt=""></span></div>
+        <div class="lp-row r3"><span><img src="img/g-travel.jpg" alt=""></span><span><img src="img/g-action.jpg" alt=""></span><span><img src="img/g-documentary.jpg" alt=""></span><span><img src="img/g-travel.jpg" alt=""></span><span><img src="img/g-action.jpg" alt=""></span><span><img src="img/g-documentary.jpg" alt=""></span></div>
+      </div>
+      <div class="lp-shade"></div>
+      <div class="lp-wtxt"><h2 data-t="w1.h"></h2><p data-t="w1.p"></p></div>
+    </div>
+    <div class="lp-slide">
+      <div class="lp-photo"><img src="img/slide2.jpg" alt=""></div>
+      <div class="lp-shade"></div>
+      <div class="lp-wtxt"><h2 data-t="w2.h"></h2><p data-t="w2.p"></p></div>
+    </div>
+  </div>
+  <div class="scr-top" style="padding:0"></div>
+  <div class="scr-body"></div>
+  <div class="scr-foot">
+    <div class="lp-dots" id="wDots"><i class="on"></i><i></i></div>
+    <button class="lp-btn" id="wNext" data-t="next"></button>
+  </div>
+</section>
+
+<!-- NAME -->
+<section class="scr" data-id="name">
+  <div class="scr-top">
+    <div class="lp-nav"><div class="lp-prog"><i style="width:20%"></i></div></div>
+    <h2 class="lp-q" data-t="nm.h"></h2>
+    <div class="lp-field"><label data-t="nm.l"></label><input id="nameIn" autocomplete="off" spellcheck="false" maxlength="18"></div>
+  </div>
+  <div class="scr-body"></div>
+  <div class="scr-foot"><button class="lp-btn" id="nameBtn" data-go="langs" data-t="next"></button></div>
+</section>
+
+<!-- LANGUAGES -->
+<section class="scr" data-id="langs">
+  <div class="scr-top">
+    <div class="lp-nav">
+      <button class="lp-back lt" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="lp-prog"><i style="width:48%"></i></div>
+    </div>
+    <h2 class="lp-q" style="font-size:16.5px" data-t="lg.h"></h2>
+  </div>
+  <div class="scr-body">
+    <div class="lp-speak"><span data-t="lg.speak"></span> <b id="speakName" style="font-weight:600"></b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>
+    <p class="lp-want" data-t="lg.want"></p>
+    <div class="lp-langs" id="langGrid"></div>
+    <div style="height:14px"></div>
+  </div>
+</section>
+
+<!-- FLUENCY -->
+<section class="scr" data-id="level">
+  <div class="scr-top">
+    <div class="lp-nav">
+      <button class="lp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="lp-prog"><i style="width:74%"></i></div>
+    </div>
+    <h2 class="lp-q" data-t="lv.h"></h2>
+  </div>
+  <div class="scr-body"><div class="lp-levels" id="levelList"></div></div>
+</section>
+
+<!-- WHERE DID YOU HEAR -->
+<section class="scr" data-id="hear">
+  <div class="scr-top">
+    <div class="lp-nav">
+      <button class="lp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="lp-prog"><i style="width:92%"></i></div>
+    </div>
+    <h2 class="lp-q" data-t="hr.h"></h2>
+  </div>
+  <div class="scr-body"><div class="lp-hear" id="hearGrid"></div></div>
+</section>
+
+<!-- WHAT DO YOU BINGE (moved before the paywall) -->
+<section class="scr" data-id="binge">
+  <button class="lp-skip" data-go="paywall" data-t="skip"></button>
+  <div class="scr-top">
+    <h2 class="lp-h" style="margin-top:48px" data-t="bg.h"></h2>
+    <p class="lp-sub" data-t="bg.sub"></p>
+  </div>
+  <div class="scr-body"><div class="lp-genres" id="genreGrid"></div><div style="height:12px"></div></div>
+  <div class="scr-foot"><button class="lp-btn gr" id="bingeBtn"></button></div>
+</section>
+
+<!-- PICK ONE -->
+<section class="scr" data-id="pick">
+  <button class="lp-skip" data-go="paywall" data-t="skip"></button>
+  <div class="scr-top">
+    <div class="lp-nav"><button class="lp-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button></div>
+    <h2 class="lp-h" data-t="pk.h"></h2>
+    <p class="lp-sub" data-t="pk.sub"></p>
+  </div>
+  <div class="scr-body">
+    <div class="lp-shows" id="showList">
+      <button class="lp-show" data-v="clouds"><img src="img/show-clouds.jpg" alt="In The Clouds — Romantic — Argentina"><span class="rd"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="lp-show ns" data-v="night"><img src="img/show-nightshift.jpg" alt="The Night Shift — Colombia"><span class="rd"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+    </div>
+    <div style="height:10px"></div>
+  </div>
+  <div class="scr-foot"><button class="lp-btn" id="pickBtn" data-t="pk.cta"></button></div>
+</section>
+
+<!-- PAYWALL -->
+<section class="scr scr--pay" data-id="paywall" data-photo="1">
+  <div class="lp-payimg"><img id="payImg" src="img/pw-face.jpg" alt=""></div>
+  <button class="lp-x" id="payClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top">
+    <h2 class="lp-payh" id="payH"></h2>
+    <div class="lp-picks" id="payPicks"></div>
+  </div>
+  <div class="scr-body">
+    <div class="lp-proof">
+      <div><b>2M+</b><span data-t="pw.learners"></span></div>
+      <div><b><em>★</em> 4.4</b><span data-t="pw.as"></span></div>
+      <div><b><em>★</em> 4.8</b><span>Trustpilot</span></div>
+    </div>
+    <div class="lp-feat" id="featList"></div>
+    <p class="lp-choose" data-t="pw.choose"></p>
+    <div class="lp-plans" id="planList">
+      <button class="lp-plan" data-v="year"><span class="lp-save" data-t="pw.save"></span><span><span class="t" data-t="pw.year"></span><span class="s" data-t="pw.yearS"></span></span><span class="p" data-t="pw.yearM"></span></button>
+      <button class="lp-plan" data-v="month"><span class="t" data-t="pw.month"></span><span class="p" data-t="pw.monthP"></span></button>
+    </div>
+    <div style="height:6px"></div>
+  </div>
+  <div class="scr-foot">
+    <button class="lp-btn caps" id="payCta" data-t="pw.cta"></button>
+    <p class="lp-already"><span data-t="pw.already"></span><b data-t="pw.signin"></b></p>
+    <p class="lp-legal" data-th="legal"></p>
+  </div>
+</section>
+
+<!-- OFFER ON CLOSE — the 7-day trial from their pricing page -->
+<section class="scr scr--offer sheet" data-id="offer">
+  <button class="lp-x" id="offClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="scr-top" style="padding-top:0">
+    <img class="lp-oart" src="img/pie4.png" alt="">
+    <h2 class="lp-oh" data-t="of.h"></h2>
+    <p class="lp-os" id="offSub"></p>
+  </div>
+  <div class="scr-body">
+    <div class="lp-tl">
+      <div class="lp-ti"><span class="dot"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></svg></span><div><b data-t="of.t1"></b><span data-t="of.t1s"></span></div></div>
+      <div class="lp-ti b"><span class="dot"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span><div><b data-t="of.t2"></b><span data-t="of.t2s"></span></div></div>
+    </div>
+    <div class="lp-oplan"><div><b data-t="pw.year"></b><br><span data-t="pw.yearS"></span></div><em data-t="of.free"></em></div>
+    <div style="height:8px"></div>
+  </div>
+  <div class="scr-foot">
+    <button class="lp-btn caps" id="offerCta" data-t="of.cta"></button>
+    <button class="lp-link" id="offFree" data-t="of.free8"></button>
+  </div>
+</section>
+
+<!-- ACCOUNT — their sign-up, moved behind the purchase -->
+<section class="scr scr--acct" data-id="account">
+  <div class="lp-deco" style="width:260px;height:260px;left:-150px;top:-120px"></div>
+  <div class="lp-deco" style="width:300px;height:300px;right:-170px;top:430px"></div>
+  <div class="scr-top" style="padding-top:62px">
+    <div class="lp-ok"><i><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></i><span id="okTxt"></span></div>
+    <h2 class="lp-gs" data-t="ac.h"></h2>
+    <p class="lp-have"><span data-t="ac.have"></span><b data-t="pw.signin"></b></p>
+  </div>
+  <div class="scr-body">
+    <div class="lp-in" data-t="ac.email"></div>
+    <div class="lp-in"><span data-t="ac.pw"></span><svg viewBox="0 0 24 24"><path d="M12 5C6.5 5 2.7 9.3 1.6 12c1.1 2.7 4.9 7 10.4 7s9.3-4.3 10.4-7C21.3 9.3 17.5 5 12 5Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z"/></svg></div>
+    <button class="lp-btn" style="margin-top:14px;background:#B54B0D;color:rgba(255,255,255,.65)" data-go="notify" data-t="ac.up"></button>
+    <p class="lp-or" data-t="ac.or"></p>
+  </div>
+  <div class="scr-foot">
+    <button class="lp-soc g" data-go="notify"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2.1-1.9 3.3-4.7 3.3-8Z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.2-2.7l-3.5-2.7c-1 .7-2.2 1-3.7 1-2.9 0-5.3-1.9-6.2-4.5H2.2v2.8A11 11 0 0 0 12 23Z"/><path fill="#FBBC05" d="M5.8 14.1a6.6 6.6 0 0 1 0-4.2V7.1H2.2a11 11 0 0 0 0 9.8l3.6-2.8Z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.1-3.1A11 11 0 0 0 2.2 7.1l3.6 2.8C6.7 7.3 9.1 5.4 12 5.4Z"/></svg><span data-t="ac.g"></span></button>
+    <button class="lp-soc f" data-go="notify"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#fff"/><path fill="#344E8D" d="M13.4 23v-8.4h2.8l.4-3.3h-3.2V9.2c0-.9.3-1.6 1.6-1.6h1.7V4.7a22 22 0 0 0-2.5-.1c-2.5 0-4.2 1.5-4.2 4.3v2.4H7.2v3.3H10V23h3.4Z"/></svg><span data-t="ac.f"></span></button>
+    <button class="lp-soc a" data-go="notify"><svg viewBox="0 0 24 24" fill="#fff"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9a4.8 4.8 0 0 0-3.8-2c-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9a5 5 0 0 0-4.2 2.6c-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8s2.3-1.3 3.1-2.5c1-1.4 1.4-2.8 1.4-2.9-.1 0-2.6-1-2.6-4.1ZM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.2.7-3 1.5-.6.7-1.2 1.9-1 3.1 1.1.1 2.3-.6 3-1.4Z"/></svg><span data-t="ac.a"></span></button>
+    <p class="lp-terms" data-th="ac.terms"></p>
+  </div>
+</section>
+
+<!-- NOTIFICATIONS — their screen, moved past the paywall -->
+<section class="scr scr--notify" data-id="notify">
+  <div class="scr-top" style="padding-top:50px">
+    <img class="lp-bell" src="img/bell.png" alt="">
+    <h2 class="lp-nh" data-t="nt.h"></h2>
+    <p class="lp-np" data-t="nt.p"></p>
+  </div>
+  <div class="scr-body"><img class="lp-nart" src="img/notify-art.png" alt=""></div>
+  <div class="scr-foot">
+    <button class="lp-btn" data-go="welcome" data-t="nt.in"></button>
+    <button class="lp-link" data-go="welcome" data-t="nt.later"></button>
+  </div>
+</section>
+
+        </div>
+      </div>
+    </div>
+    <div class="demo-cap hidden" id="demoCap"><div class="bar"><i id="demoProg"></i></div><p id="demoTxt"></p><button id="demoStop">Stop</button></div>
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">Jump to any screen — answers already filled in.</p>
+    <div class="qr"><img src="img/qr.svg" alt="QR code for this prototype"><span><b>Open it on your phone</b>Scan to try the flow in your hand.</span></div>
+  </div>
+  <div class="panelcol"><div class="pn" id="panel"></div></div>
+</div>
+</div><!-- /view-proto -->
+
+<script>
+/* ================= copy, per language (phone screens only) ================= */
+var LANGS = ['en','es','de'];
+var T = {
+  'next':['Next','Siguiente','Weiter'],
+  'skip':['Skip','Omitir','Überspringen'],
+  'w1.h':['Immerse','Sumérgete','Eintauchen'],
+  'w1.p':['Dive into Lingopie’s expansive collection of TV shows and movies. More than just language learning - it’s a cultural journey.',
+          'Sumérgete en la enorme colección de series y películas de Lingopie. Mucho más que aprender un idioma: es un viaje cultural.',
+          'Tauche ein in Lingopies riesige Sammlung an Serien und Filmen. Mehr als Sprachenlernen – eine kulturelle Reise.'],
+  'w2.h':['Get curious','Ten curiosidad','Werde neugierig'],
+  'w2.p':['Instantly comprehend nuances while watching and discover the charm of a new language, one word at a time.',
+          'Entiende los matices mientras ves y descubre el encanto de un nuevo idioma, palabra a palabra.',
+          'Verstehe Nuancen schon beim Zuschauen und entdecke den Charme einer neuen Sprache – Wort für Wort.'],
+  'nm.h':['What would you like us to call you?','¿Cómo quieres que te llamemos?','Wie sollen wir dich nennen?'],
+  'nm.l':['Username','Nombre de usuario','Benutzername'],
+  'lg.h':['Your language preferences','Tus preferencias de idioma','Deine Spracheinstellungen'],
+  'lg.speak':['I speak','Hablo','Ich spreche'],
+  'lg.want':['And I want to learn','Y quiero aprender','Und ich möchte lernen'],
+  'lv.h':['What is your fluency level?','¿Cuál es tu nivel?','Wie gut sprichst du schon?'],
+  'hr.h':['Where did you hear about Lingopie?','¿Dónde conociste Lingopie?','Wie hast du von Lingopie erfahren?'],
+  'bg.h':['What do you binge?','¿Qué te gusta maratonear?','Was schaust du am liebsten?'],
+  'bg.sub':['Pick at least 3. We’ll line up shows you’ll actually want to watch.','Elige al menos 3. Te prepararemos series que de verdad querrás ver.','Wähle mindestens 3. Wir stellen Serien zusammen, die du wirklich sehen willst.'],
+  'bg.more':['Pick {n} more','Elige {n} más','Noch {n} wählen'],
+  'bg.go':['Continue','Continuar','Weiter'],
+  'pk.h':['Pick one you’d actually watch.','Elige una que de verdad verías.','Wähl eine, die du wirklich schauen würdest.'],
+  'pk.sub':['Here are shows we think you’ll love.','Estas son series que creemos que te encantarán.','Diese Serien könnten dir gefallen.'],
+  'pk.cta':['Start watching','Empezar a ver','Jetzt schauen'],
+  'pw.hShow':['Let {show} teach you {lang}.','Deja que {show} te enseñe {lang}.','Lass dir von {show} {lang} beibringen.'],
+  'pw.hGenre':['Let your {g} picks teach you {lang}.','Deja que tus series de {g} te enseñen {lang}.','Lass dir von deinen {g}-Serien {lang} beibringen.'],
+  'pw.hBase':['Let your TV teach you a new language.','Deja que tu tele te enseñe un nuevo idioma.','Lass dir vom Fernseher eine neue Sprache beibringen.'],
+  'pw.for':['For {name}','Para {name}','Für {name}'],
+  'pw.learners':['learners','estudiantes','Lernende'],
+  'pw.as':['2.2K ratings','2,2 mil valoraciones','2.200 Bewertungen'],
+  'pw.f1':['Thousands of handpicked TV shows, movies and music videos','Miles de series, películas y videoclips seleccionados','Tausende handverlesene Serien, Filme und Musikvideos'],
+  'pw.f2':['Language games + video based Flashcards','Juegos de idiomas + tarjetas con vídeo','Sprachspiele + Video-Karteikarten'],
+  'pw.f3':['Choose from 11 languages and 20 dialects','Elige entre 11 idiomas y 20 dialectos','11 Sprachen und 20 Dialekte zur Auswahl'],
+  'pw.f4':['Download videos and learn offline','Descarga vídeos y aprende sin conexión','Videos herunterladen und offline lernen'],
+  'pw.choose':['Choose your plan:','Elige tu plan:','Wähle deinen Plan:'],
+  'pw.save':['Save 44%','Ahorra 44%','44% sparen'],
+  'pw.year':['Yearly','Anual','Jährlich'],
+  'pw.yearS':['99,99 € billed annually','99,99 € al año','99,99 € jährlich'],
+  'pw.yearM':['8,33 €/ month','8,33 €/ mes','8,33 €/ Monat'],
+  'pw.month':['Monthly','Mensual','Monatlich'],
+  'pw.monthP':['14,99 €/ month','14,99 €/ mes','14,99 €/ Monat'],
+  'pw.cta':['Continue','Continuar','Weiter'],
+  'pw.already':['Already a user?','¿Ya tienes cuenta?','Schon dabei?'],
+  'pw.signin':['Sign in','Inicia sesión','Anmelden'],
+  'legal':['<b>Terms of Service</b> and <b>Privacy Policy</b>','<b>Términos del servicio</b> y <b>Política de privacidad</b>','<b>Nutzungsbedingungen</b> und <b>Datenschutz</b>'],
+  'of.h':['Watch everything free for 7 days','Míralo todo gratis 7 días','7 Tage alles gratis schauen'],
+  'of.sub':['Start with <b>{show}</b> tonight. Cancel before day 7 and you won’t be charged anything at all.','Empieza esta noche con <b>{show}</b>. Cancela antes del día 7 y no se te cobrará nada.','Starte heute Abend mit <b>{show}</b>. Kündige vor Tag 7 und es kostet dich nichts.'],
+  'of.subNo':['Every show, every language. Cancel before day 7 and you won’t be charged anything at all.','Todas las series, todos los idiomas. Cancela antes del día 7 y no se te cobrará nada.','Alle Serien, alle Sprachen. Kündige vor Tag 7 und es kostet dich nichts.'],
+  'of.t1':['Today','Hoy','Heute'],
+  'of.t1s':['Full access: every show, games and Flashcards','Acceso total: todas las series, juegos y tarjetas','Voller Zugang: alle Serien, Spiele und Karteikarten'],
+  'of.t2':['Day 7','Día 7','Tag 7'],
+  'of.t2s':['Your year starts: 99,99 € billed annually','Empieza tu año: 99,99 € al año','Dein Jahr beginnt: 99,99 € jährlich'],
+  'of.free':['7 days free','7 días gratis','7 Tage gratis'],
+  'of.cta':['Start my free week','Empezar mi semana gratis','Gratiswoche starten'],
+  'of.free8':['Keep 8 free minutes a week','Seguir con 8 minutos gratis a la semana','Bei 8 Gratis-Minuten pro Woche bleiben'],
+  'ac.ok':['{show} is in your list','{show} está en tu lista','{show} ist in deiner Liste'],
+  'ac.okNo':['Your shows are in your list','Tus series están en tu lista','Deine Serien sind in deiner Liste'],
+  'ac.h':['Get Started with Lingopie','Empieza con Lingopie','Los geht’s mit Lingopie'],
+  'ac.have':['Already have an account?','¿Ya tienes una cuenta?','Schon ein Konto?'],
+  'ac.email':['Email','Correo electrónico','E-Mail'],
+  'ac.pw':['Create password','Crea una contraseña','Passwort erstellen'],
+  'ac.up':['Sign up','Registrarse','Registrieren'],
+  'ac.or':['Or','O','Oder'],
+  'ac.g':['Continue with Google','Continuar con Google','Weiter mit Google'],
+  'ac.f':['Continue with Facebook','Continuar con Facebook','Weiter mit Facebook'],
+  'ac.a':['Continue with Apple','Continuar con Apple','Weiter mit Apple'],
+  'ac.terms':['By signing up in to LingoPie, I agree to<br><b>Terms of Service</b> and <b>Privacy Policy</b>','Al registrarme en LingoPie, acepto los<br><b>Términos del servicio</b> y la <b>Política de privacidad</b>','Mit der Registrierung bei LingoPie stimme ich den<br><b>Nutzungsbedingungen</b> und dem <b>Datenschutz</b> zu'],
+  'nt.h':['Get Notified!','¡Recibe avisos!','Bleib dran!'],
+  'nt.p':['Allow notifications to receive practice reminders, content news, and progress updates.','Activa las notificaciones para recibir recordatorios de práctica, novedades y tu progreso.','Erlaube Mitteilungen für Lernerinnerungen, neue Inhalte und deinen Fortschritt.'],
+  'nt.in':['I’m in','Me apunto','Bin dabei'],
+  'nt.later':['Maybe later','Quizás más tarde','Vielleicht später']
+};
+/* languages in their order; names per UI language: [chip, in a sentence] */
+var LNG = [
+ ['es',['Spanish','Spanish'],['Español','español'],['Spanisch','Spanisch']],
+ ['pt',['Portuguese','Portuguese'],['Portugués','portugués'],['Portugiesisch','Portugiesisch']],
+ ['de',['German','German'],['Alemán','alemán'],['Deutsch','Deutsch']],
+ ['fr',['French','French'],['Francés','francés'],['Französisch','Französisch']],
+ ['it',['Italian','Italian'],['Italiano','italiano'],['Italienisch','Italienisch']],
+ ['ru',['Russian','Russian'],['Ruso','ruso'],['Russisch','Russisch']],
+ ['ja',['Japanese','Japanese'],['Japonés','japonés'],['Japanisch','Japanisch']],
+ ['ko',['Korean','Korean'],['Coreano','coreano'],['Koreanisch','Koreanisch']],
+ ['zh',['Chinese','Chinese'],['Chino','chino'],['Chinesisch','Chinesisch']],
+ ['tr',['Turkish','Turkish'],['Turco','turco'],['Türkisch','Türkisch']],
+ ['nl',['Dutch','Dutch'],['Neerlandés','neerlandés'],['Niederländisch','Niederländisch']],
+ ['pl',['Polish','Polish'],['Polaco','polaco'],['Polnisch','Polnisch']],
+ ['el',['Greek','Greek'],['Griego','griego'],['Griechisch','Griechisch']],
+ ['no',['Norwegian','Norwegian'],['Noruego','noruego'],['Norwegisch','Norwegisch']],
+ ['sv',['Swedish','Swedish'],['Sueco','sueco'],['Schwedisch','Schwedisch']],
+ ['en',['English','English'],['Inglés','inglés'],['Englisch','Englisch']]
+];
+var LN={}; LNG.forEach(function(r){ LN[r[0]]=r; });
+function lname(k,form){ return LN[k][L()+1][form||0]; }
+var LEVELS = [
+ {k:'start',img:'img/pie1.png',t:['Getting started','Empezando','Einstieg'],d:['You’re new to the language and ready to dabble.','Eres nuevo en el idioma y quieres probar.','Du bist neu und willst reinschnuppern.']},
+ {k:'bite',img:'img/pie2.png',t:['Taking a bite','Un primer bocado','Erster Bissen'],d:['You have a basic level of awareness and want to keep going.','Tienes una base y quieres seguir.','Du kennst die Basics und willst weitermachen.']},
+ {k:'hungry',img:'img/pie3.png',t:['Getting hungry','Con hambre','Hunger auf mehr'],d:['As your familiarity grows, you’re hungry for more.','Cuanto más sabes, más quieres.','Je vertrauter du wirst, desto mehr willst du.']},
+ {k:'meal',img:'img/pie4.png',t:['The whole meal','El menú completo','Das ganze Menü'],d:['With a confident foundation, your aspirations grow.','Con una base sólida, tus metas crecen.','Mit sicherer Basis wachsen deine Ziele.']}
+];
+var LEV={}; LEVELS.forEach(function(l){ LEV[l.k]=l; });
+var HEAR = [['friend','Friend','Un amigo','Freunde'],['email','Email','Email','E-Mail'],['yt','Youtube Ad','Anuncio de Youtube','YouTube-Werbung'],['ig','Instagram','Instagram','Instagram'],
+ ['fb','Facebook','Facebook','Facebook'],['google','Google','Google','Google'],['blog','Blog','Blog','Blog'],['review','Review on a website','Reseña en una web','Bewertung im Netz'],
+ ['ytr','Youtube\nvideo review','Reseña en\nYoutube','YouTube-\nVideobewertung'],['other','Other','Otro','Sonstiges']];
+/* genre tiles are their image assets with the label baked in, so they stay as shipped */
+var GENRES = [['travel','Travel','viajes','Reise'],['thriller','Thriller','suspense','Thriller'],['documentary','Documentary','documental','Doku'],['comedy','Comedy','comedia','Comedy'],
+ ['cartoon','Cartoon','dibujos','Cartoon'],['romantic','Romantic','romance','Romantik'],['action','Action','acción','Action'],['food','Food','cocina','Food'],
+ ['drama','Drama','drama','Drama'],['independent','Independent','cine independiente','Indie']];
+var GN={}; GENRES.forEach(function(g){ GN[g[0]]=g; });
+var SHOWS = {clouds:{n:'In The Clouds',img:'img/pw-clouds.jpg',pos:'50% 40%'}, night:{n:'The Night Shift',img:'img/pw-face.jpg',pos:'50% 40%'}};
+
+/* ================= state ================= */
+var S0 = {lang:'en', theme:'dark'};
+function speakOf(l){ return l==='es'?'es':(l==='de'?'de':'en'); }
+function defaults(){ var sp=speakOf(S0.lang);
+  return { lang:S0.lang, theme:S0.theme, slide:0, name:'Alex', speak:sp, learn: sp==='es'?'en':'es', level:'bite', hear:'yt',
+    genres:['romantic','comedy','travel'], show:'clouds', plan:'year' }; }
+var S = defaults();
+function L(){ return LANGS.indexOf(S.lang); }
+function t(k,v){ var s=(T[k]||[k])[L()]; if(v) Object.keys(v).forEach(function(x){ s=s.split('{'+x+'}').join(v[x]); }); return s; }
+function hasShows(){ return S.learn==='es'; }
+function showName(){ return hasShows() && S.show ? SHOWS[S.show].n : ''; }
+
+/* ================= builders (re-run on language change) ================= */
+function buildLangs(){ var g=document.getElementById('langGrid'); g.innerHTML='';
+  LNG.forEach(function(r){ if(r[0]===S.speak) return; var b=document.createElement('button'); b.className='lp-lang'; b.dataset.v=r[0];
+    b.innerHTML='<img src="img/flags/'+r[0]+'.png" alt="">'+lname(r[0]);
+    b.addEventListener('click',function(){ S.learn=r[0]; if(!hasShows()) S.show=null; else if(!S.show) S.show='clouds'; syncScreen(); setTimeout(function(){ if(cur==='langs') go('level'); },260); });
+    g.appendChild(b); }); }
+function buildLevels(){ var g=document.getElementById('levelList'); g.innerHTML='';
+  LEVELS.forEach(function(l){ var b=document.createElement('button'); b.className='lp-level'; b.dataset.v=l.k;
+    b.innerHTML='<span class="ic"><img src="'+l.img+'" alt=""></span><span class="tx"><b>'+l.t[L()]+'</b><span>'+l.d[L()]+'</span></span>';
+    b.addEventListener('click',function(){ S.level=l.k; syncScreen(); setTimeout(function(){ if(cur==='level') go('hear'); },260); });
+    g.appendChild(b); }); }
+function buildHear(){ var g=document.getElementById('hearGrid'); g.innerHTML='';
+  HEAR.forEach(function(h){ var b=document.createElement('button'); b.className='lp-hc'; b.dataset.v=h[0];
+    b.innerHTML=h[L()+1].replace('\n','<br>');
+    b.addEventListener('click',function(){ S.hear=h[0]; syncScreen(); setTimeout(function(){ if(cur==='hear') go('binge'); },260); });
+    g.appendChild(b); }); }
+function buildGenres(){ var g=document.getElementById('genreGrid'); if(g.children.length) return;
+  GENRES.forEach(function(x){ var b=document.createElement('button'); b.className='lp-g'; b.dataset.v=x[0];
+    b.innerHTML='<img src="img/g-'+x[0]+'.jpg" alt="'+x[1]+'">';
+    b.addEventListener('click',function(){ var i=S.genres.indexOf(x[0]); if(i>-1) S.genres.splice(i,1); else S.genres.push(x[0]); syncScreen(); });
+    g.appendChild(b); }); }
+function applyStatic(){
+  document.documentElement.lang=S.lang;
+  document.querySelectorAll('[data-t]').forEach(function(el){ el.textContent=t(el.dataset.t); });
+  document.querySelectorAll('[data-th]').forEach(function(el){ el.innerHTML=t(el.dataset.th); });
+  buildLangs(); buildLevels(); buildHear(); buildGenres();
+}
+var ck='<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>';
+
+/* ================= everything downstream reads S ================= */
+function syncScreen(){
+  var li=L();
+  /* welcome */
+  document.getElementById('slides').style.transform='translateX('+(-100*S.slide)+'%)';
+  document.querySelectorAll('#wDots i').forEach(function(d,i){ d.classList.toggle('on',i===S.slide); });
+  document.getElementById('wNext').classList.toggle('blue',S.slide===1);
+  /* name */
+  var ni=document.getElementById('nameIn'); if(document.activeElement!==ni) ni.value=S.name;
+  document.getElementById('nameBtn').disabled=!S.name.trim();
+  /* langs, level, hear */
+  document.getElementById('speakName').textContent=lname(S.speak);
+  document.querySelectorAll('#langGrid .lp-lang').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.learn); });
+  document.querySelectorAll('#levelList .lp-level').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.level); });
+  document.querySelectorAll('#hearGrid .lp-hc').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.hear); });
+  /* binge */
+  document.querySelectorAll('#genreGrid .lp-g').forEach(function(b){ b.classList.toggle('on',S.genres.indexOf(b.dataset.v)>-1); });
+  var need=Math.max(0,3-S.genres.length), bb=document.getElementById('bingeBtn');
+  bb.disabled=need>0; bb.textContent= need>0 ? t('bg.more',{n:need}) : t('bg.go');
+  /* pick */
+  document.querySelectorAll('#showList .lp-show').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.show); });
+  document.getElementById('pickBtn').disabled=!S.show;
+  /* paywall: the headline names the show they picked, in the language they chose */
+  var sn=showName(), lang=lname(S.learn,1), g0=S.genres[0];
+  var h = sn ? t('pw.hShow',{show:sn,lang:lang}) : (g0 ? t('pw.hGenre',{g:GN[g0][li+1],lang:lang}) : t('pw.hBase'));
+  document.getElementById('payH').textContent=h;
+  var im=document.getElementById('payImg'); var sh=sn?SHOWS[S.show]:SHOWS.night; im.src=sh.img; im.style.objectPosition=sh.pos;
+  var lv=LEV[S.level], pk='';
+  pk+='<span class="lp-pk"><img src="img/flags/'+S.learn+'.png" alt="">'+lname(S.learn)+'</span>';
+  pk+='<span class="lp-pk"><img src="'+lv.img+'" alt="">'+lv.t[li]+'</span>';
+  if(S.name.trim()) pk+='<span class="lp-pk nb">'+t('pw.for',{name:S.name.trim().replace(/[<>&]/g,'')})+'</span>';
+  document.getElementById('payPicks').innerHTML=pk;
+  document.getElementById('featList').innerHTML=['pw.f1','pw.f2','pw.f3','pw.f4'].map(function(k){ return '<div class="lp-f">'+ck+'<span>'+t(k)+'</span></div>'; }).join('');
+  document.querySelectorAll('#planList .lp-plan').forEach(function(b){ b.classList.toggle('on',b.dataset.v===S.plan); });
+  /* offer, account */
+  document.getElementById('offSub').innerHTML = sn ? t('of.sub',{show:sn}) : t('of.subNo');
+  document.getElementById('okTxt').textContent = sn ? t('ac.ok',{show:sn}) : t('ac.okNo');
+}
+
+/* ================= router ================= */
+var BASE=['welcome','name','langs','level','hear','binge','pick','paywall','offer','account','notify'];
+function ORDER(){ return hasShows() ? BASE : BASE.filter(function(x){ return x!=='pick'; }); }
+var LABEL={welcome:'Welcome',name:'Name',langs:'Languages',level:'Level',hear:'Heard from',binge:'What you binge',pick:'Pick a show',paywall:'Paywall',offer:'Offer on close',account:'Account',notify:'Notifications'};
+var scr={}, hist=[], cur='welcome';
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id]=s; });
+
+function chrome(){ var light=S.theme==='light';
+  var white = cur==='notify' ? false : (light ? !!scr[cur].dataset.photo && cur!=='welcome' : true);
+  if(light && cur==='welcome') white = S.slide===1;
+  document.getElementById('sbar').classList.toggle('light',white); document.getElementById('homebar').classList.toggle('light',!light && cur!=='notify'); }
+function enter(id){ chrome(); paintChips(); paintPanel(); if(id!=='name') document.getElementById('nameIn').blur(); }
+function go(id,opts){
+  opts=opts||{}; if(id===cur) return;
+  if(id==='pick' && !hasShows()) id='paywall';
+  var from=scr[cur], to=scr[id];
+  if(!opts.back) hist.push(cur);
+  if(from){ from.classList.remove('is-active');
+    if(!to.classList.contains('sheet') && !from.classList.contains('sheet')) from.classList.add('is-past'); }
+  Object.keys(scr).forEach(function(k){ if(k!==id&&k!==cur) scr[k].classList.remove('is-active'); });
+  to.classList.remove('is-past'); to.classList.add('is-active');
+  if(id==='welcome'){ S.slide=0; syncScreen(); hist=[]; Object.keys(scr).forEach(function(k){ if(k!=='welcome') scr[k].classList.remove('is-past'); }); }
+  cur=id; enter(id);
+}
+function back(){
+  if(!hist.length) return;
+  var prev=hist.pop();
+  scr[cur].classList.remove('is-active');
+  scr[prev].classList.remove('is-past'); scr[prev].classList.add('is-active');
+  cur=prev; enter(prev);
+}
+function jump(id){
+  if(id==='pick' && !hasShows()){ S.learn='es'; S.show=S.show||'clouds'; }
+  var o=ORDER(), i=o.indexOf(id);
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist=o.slice(0,i<0?0:i);
+  if(id==='offer') scr.paywall.classList.add('is-active');
+  scr[id].classList.add('is-active'); cur=id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  syncScreen(); enter(id);
+}
+var chipKey='';
+function paintChips(){
+  var c=document.getElementById('chips'), o=ORDER();
+  if(chipKey!==o.join()){ chipKey=o.join(); c.innerHTML='';
+    o.forEach(function(id){
+      var b=document.createElement('button'); b.className='chip'+(id==='offer'?' offer':''); b.textContent=LABEL[id];
+      b.dataset.id=id; b.onclick=function(){ stopDemo(); jump(id); }; c.appendChild(b);
+    });
+  }
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b.dataset.id===cur); });
+}
+
+/* ================= wiring ================= */
+document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ if(!b.disabled) go(b.dataset.go); }); });
+document.querySelectorAll('[data-back]').forEach(function(b){ b.addEventListener('click',back); });
+document.getElementById('wNext').addEventListener('click',function(){ if(S.slide===0){ S.slide=1; syncScreen(); chrome(); } else go('name'); });
+document.getElementById('nameIn').addEventListener('input',function(e){ S.name=e.target.value; syncScreen(); });
+document.getElementById('bingeBtn').addEventListener('click',function(){ if(!this.disabled) go(hasShows()?'pick':'paywall'); });
+document.querySelectorAll('#showList .lp-show').forEach(function(b){ b.addEventListener('click',function(){ S.show=b.dataset.v; syncScreen(); }); });
+document.getElementById('pickBtn').addEventListener('click',function(){ if(!this.disabled) go('paywall'); });
+document.querySelectorAll('#planList .lp-plan').forEach(function(b){ b.addEventListener('click',function(){ S.plan=b.dataset.v; syncScreen(); }); });
+document.getElementById('payClose').addEventListener('click',function(){ go('offer'); });
+document.getElementById('payCta').addEventListener('click',function(){ go('account'); });
+document.getElementById('offClose').addEventListener('click',function(){ go('account'); });
+document.getElementById('offerCta').addEventListener('click',function(){ go('account'); });
+document.getElementById('offFree').addEventListener('click',function(){ go('account'); });
+
+function setSeg(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(function(b){ b.classList.toggle('on', b.dataset[attr]===val); }); }
+function setLang(l){
+  S.lang=l; S0.lang=l; var sp=speakOf(l);
+  if(sp!==S.speak){ S.speak=sp; if(S.learn===sp){ S.learn = sp==='es'?'en':'es'; } if(!hasShows()) S.show=null; else if(!S.show) S.show='clouds'; }
+  if(cur==='pick' && !hasShows()){ jump('paywall'); }
+  setSeg('segLang','lang',l); applyStatic(); syncScreen(); paintChips(); paintPanel();
+}
+function setTheme(th){ S.theme=th; S0.theme=th; document.getElementById('phoneIn').classList.toggle('light',th==='light'); setSeg('segTheme','theme',th); chrome(); }
+document.querySelectorAll('#segLang button').forEach(function(b){ b.addEventListener('click',function(){ stopDemo(); setLang(b.dataset.lang); }); });
+document.querySelectorAll('#segTheme button').forEach(function(b){ b.addEventListener('click',function(){ setTheme(b.dataset.theme); }); });
+
+/* ================= the 30-second walkthrough ================= */
+var demo={tok:0,on:false,t0:0,iv:null}, finger=document.getElementById('finger'), phoneIn=document.getElementById('phoneIn');
+function W(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function cap(txt){ document.getElementById('demoTxt').textContent=txt; }
+async function tap(sel,tok){
+  if(demo.tok!==tok) throw 0;
+  var el=document.querySelector(sel); if(!el) return;
+  var r=el.getBoundingClientRect(), p=phoneIn.getBoundingClientRect(), z=p.width/phoneIn.offsetWidth||1;
+  finger.style.left=((r.left-p.left+r.width/2)/z)+'px'; finger.style.top=((r.top-p.top+r.height/2)/z)+'px';
+  finger.classList.add('show'); await W(380); if(demo.tok!==tok) throw 0;
+  finger.classList.add('press'); await W(120); finger.classList.remove('press'); el.click(); await W(160);
+  if(demo.tok!==tok) throw 0;
+}
+async function pause(ms,tok){ await W(ms); if(demo.tok!==tok) throw 0; }
+function startDemo(){
+  stopDemo(); var tok=++demo.tok; demo.on=true; demo.t0=Date.now();
+  var keep={lang:S.lang,theme:S.theme}; S=defaults(); S.lang=keep.lang; S.theme=keep.theme;
+  applyStatic(); jump('welcome');
+  document.getElementById('demoCap').classList.remove('hidden');
+  demo.iv=setInterval(function(){ document.getElementById('demoProg').style.width=Math.min(100,(Date.now()-demo.t0)/225)+'%'; },200);
+  var es=S.learn==='es';
+  (async function(){
+    try{
+      cap('Your welcome carousel, unchanged.'); await pause(1100,tok);
+      await tap('#wNext',tok); await pause(500,tok); await tap('#wNext',tok);
+      cap('Their name, kept for the paywall.'); await pause(650,tok);
+      await tap('#nameBtn',tok);
+      cap('The language they want to learn.'); await pause(550,tok);
+      await tap('#langGrid [data-v='+S.learn+']',tok); await pause(500,tok);
+      cap('Their level, on your pie cards.'); await tap('#levelList [data-v=hungry]',tok); await pause(500,tok);
+      cap('Where they heard about you — still asked.'); await tap('#hearGrid [data-v=ig]',tok); await pause(550,tok);
+      cap('New: what they binge now comes before the price.'); await pause(600,tok);
+      await tap('#genreGrid [data-v=thriller]',tok); await pause(350,tok); await tap('#bingeBtn',tok);
+      if(es){ cap('They pick a show from your own recommendations.'); await pause(550,tok);
+        await tap('#showList [data-v=night]',tok); await pause(350,tok); await tap('#pickBtn',tok); }
+      cap('The paywall names their show, their language and their level — with your 2M learners and ratings.'); await pause(2300,tok);
+      await tap('#planList [data-v=month]',tok); await pause(500,tok); await tap('#planList [data-v=year]',tok); await pause(400,tok);
+      cap('They close it. The second chance is your own 7-day free trial.'); await tap('#payClose',tok); await pause(2200,tok);
+      cap('That is the flow. Sign-up and notifications now come after this point.');
+      finger.classList.remove('show'); await pause(2200,tok); stopDemo();
+    }catch(e){}
+  })();
+}
+function stopDemo(){ if(!demo.on) return; demo.tok++; demo.on=false; clearInterval(demo.iv); finger.classList.remove('show','press');
+  document.getElementById('demoCap').classList.add('hidden'); }
+document.getElementById('demoBtn').addEventListener('click',startDemo);
+document.getElementById('demoStop').addEventListener('click',stopDemo);
+phoneIn.addEventListener('pointerdown',function(e){ if(e.isTrusted && demo.on) stopDemo(); });
+</script>
+<script>
+/* ---- the short panel: hypothesis + potential outcome, nothing else ---- */
+var PANEL = {
+welcome:{ctx:true,t:'Immerse · Get curious',
+ kept:'Your walkthrough as it ships — the moving wall of posters, the Bebas headline, the orange then blue Next button and the dots. The posters here are your own genre and show art, cut from the app.'},
+name:{ctx:true,t:'What would you like us to call you?',
+ kept:'Unchanged and still asked. The name now comes back on the paywall, so the question pays for itself.'},
+langs:{ctx:true,t:'Your language preferences',
+ kept:'Untouched — “I speak”, the flag chips, all fifteen languages in your order. The language they pick is the one the paywall headline names.'},
+level:{ctx:true,t:'What is your fluency level?',
+ kept:'Untouched — your four pie levels, from Getting started to The whole meal. The level they pick rides along to the paywall as a chip with its own pie.'},
+hear:{ctx:true,t:'Where did you hear about Lingopie?',
+ kept:'Untouched — all ten answers in your order. It stays before the paywall, exactly where it is today.'},
+binge:{n:1,t:'Ask what they binge before the price',
+ hyp:'Try asking this before the paywall instead of after it, <b>because today the paywall comes first and says “Let your TV teach you a new language” to everyone</b>. Pick genres here and the paywall names a show from them.',
+ kept:'Your genre tiles as they ship, your orange selection tint, Skip, and the “Pick 3 more” counter on the button.',
+ out:'CR +15–20%'},
+pick:{n:1,t:'Ask what they binge before the price',
+ hyp:'Try letting them pick the show before the price, <b>because the moment someone says “I’d watch that” is the moment to ask them to pay for it</b>. Pick The Night Shift and the paywall opens on it.',
+ kept:'Your show cards with the country pill, the orange border and Start watching. The two shows are the ones your app recommended in our session.',
+ out:'CR +15–20%'},
+paywall:{n:1,t:'Ask what they binge before the price',
+ hyp:'Try a headline that names their show and language — “Let The Night Shift teach you Spanish” — <b>because your own line, “Let your TV teach you a new language”, already has the slot for it</b>. Their level and name ride along as chips.',
+ n2:4, hyp2:'Try your 2M+ learners, 4.4 on the App Store and 4.8 on Trustpilot above the plans, <b>because none of them appears anywhere in the flow today</b>.',
+ out2:'CR +10–15%',
+ kept:'Your photo-led dark paywall, the four ticked lines word for word, the Save 44% tag, both plan cards at 99,99 € and 14,99 €, CONTINUE, Sign in and your legal line.',
+ out:'CR +15–20%'},
+offer:{n:2,t:'Offer the free week when they close',
+ hyp:'Try your 7-day free trial on the yearly plan as the answer to the X, <b>because closing today drops people into 8 free minutes a week with no second chance</b>. The trial is on your own pricing page, so nothing here is invented.',
+ kept:'Your dark surface, orange-and-purple palette, your pie art, your yearly card and the 99,99 € price. “Keep 8 free minutes a week” is the free plan your App Store listing describes.',
+ out:'ARPU +10–15%'},
+account:{n:3,t:'Ask for the account after they pay',
+ hyp:'Try this screen straight after purchase, <b>because today it sits right before the price and asks for an email and password from someone who has not seen a single show yet</b>.',
+ kept:'Your “Get Started with Lingopie” screen as it ships — the fields, the Google, Facebook and Apple buttons, the background circles and your terms line.',
+ out:'CR +8% · ARPU +17%'},
+notify:{n:5,t:'Ask for notifications after the paywall',
+ hyp:'Try asking once they are in, <b>because today the iOS dialog appears two screens before the price and pulls attention away from it</b>.',
+ kept:'Your white “Get Notified!” screen, the bell, the guitar illustration, I’m in and Maybe later.',
+ out:'CR +10–15%'}
+};
+
+function outBlock(lab,val){
+  return '<div class="pn-out"><div class="lab">'+lab+'</div><div class="v">'+val+'</div></div>';
+}
+function paintPanel(){
+  var d=PANEL[cur]; if(!d) return;
+  var h='';
+  if(d.ctx){
+    h += '<div class="pn-n ctx">Context · no change proposed</div><h3 class="pn-t">'+d.t+'</h3>'
+       + '<div class="pn-kept">'+d.kept+'</div>';
+  } else {
+    h += '<div class="pn-n">Idea '+d.n+' of 5</div><h3 class="pn-t">'+d.t+'</h3>'
+       + '<p class="pn-hyp">'+d.hyp+'</p>'
+       + outBlock('Potential outcome · based on Adapty data', d.out);
+    if(d.hyp2){
+      h += '<div class="pn-sep"></div>'
+         + '<div class="pn-n">Idea '+d.n2+' of 5</div><h3 class="pn-t">Put your 2M learners on the paywall</h3>'
+         + '<p class="pn-hyp" style="margin-top:12px">'+d.hyp2+'</p>'
+         + outBlock('Potential outcome · based on Adapty data', d.out2);
+    }
+    h += '<div class="pn-kept"><b>Your design, unchanged.</b> '+d.kept+'</div>';
+  }
+  if(S.lang!=='en') h += '<div class="pn-kept"><b>Language.</b> Screens are shown in '+(S.lang==='es'?'Spanish':'German')+' to show one flow serving every market — translated by us. Store prices stay as published in euros, and the genre tiles keep their English labels because those are baked into your images.</div>';
+  h += '<div class="pn-foot">Ranges are Adapty’s expected effect from tests across 30,000+ subscription apps — not measured lift for Lingopie. '
+     + 'Prices, ratings, quotes and feature lines come from your own published material.</div>';
+  document.getElementById('panel').innerHTML = h;
+}
+
+/* ---- views, jumps from the overview ---- */
+function showView(v){
+  if(v!=='proto') stopDemo();
+  document.querySelectorAll('.view').forEach(function(x){ x.classList.remove('on'); });
+  document.getElementById('view-'+v).classList.add('on');
+  document.querySelectorAll('.nav-links button[data-view]').forEach(function(b){ b.classList.toggle('on', b.dataset.view===v); });
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ showView(b.dataset.view); }); });
+document.querySelectorAll('.idea[data-jump]').forEach(function(b){
+  b.addEventListener('click',function(){ showView('proto'); jump(b.dataset.jump); });
+});
+document.querySelectorAll('[data-demo]').forEach(function(b){ b.addEventListener('click',function(){ showView('proto'); startDemo(); }); });
+
+applyStatic();
+scr.welcome.classList.add('is-active');
+syncScreen(); chrome(); paintChips(); paintPanel();
+if(/[?&]open=proto/.test(location.search)) showView('proto');
+</script>
+</body>
+</html>
